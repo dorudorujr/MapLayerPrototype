@@ -1,21 +1,33 @@
-//
-//  ContentView.swift
-//  MapLayerPrototype
-//
-//  Created by 杉岡成哉 on 2025/10/18.
-//
-
 import SwiftUI
+import MapKit
 
 struct ContentView: View {
+    // Memo: StateObjectじゃなくてもいいかも
+    @StateObject private var locationManager = LocationManager()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Map(interactionModes: .all) {
+            UserAnnotation(anchor: .center) { userLocation in
+                VStack {
+                    Image(systemName: "arrow.up")
+                        .rotationEffect(.degrees(userLocation.heading?.magneticHeading ?? 0))
+                        .foregroundColor(.blue)
+                    Circle()
+                        .foregroundStyle(.blue)
+                        .padding(2)
+                        .background(
+                            Circle()
+                                .fill(.white)
+                        )
+                }
+            }
         }
-        .padding()
+        .mapControls {
+            MapUserLocationButton()
+        }
+        .onAppear {
+            locationManager.requestLocation()
+        }
     }
 }
 
