@@ -9,9 +9,6 @@ struct ContentView: View {
         Map(interactionModes: .all) {
             UserAnnotation(anchor: .center) { userLocation in
                 VStack {
-                    Image(systemName: "arrow.up")
-                        .rotationEffect(.degrees(userLocation.heading?.magneticHeading ?? 0))
-                        .foregroundColor(.blue)
                     Circle()
                         .foregroundStyle(.blue)
                         .padding(2)
